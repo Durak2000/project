@@ -1,4 +1,6 @@
 import asyncio
+import logging
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 
@@ -15,6 +17,7 @@ async def echo(message: types.Message):
     await message.answer(f'Я пока что в разработке так что могу толко показать вам ваше же предложение: {message.text}')
 
 async def main():
+    logging.basicConfig(level=logging.INFO)
     await dp.start_polling(bot)
 
 asyncio.run(main())
