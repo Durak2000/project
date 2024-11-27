@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 
-TOKEN = '7908811468:AAF2eRhhiROPR0DJ9xOGeHZIunE4aTwsnKE'
+TOKEN = '7984849829:AAF9Ru8YrSKepje_8McB_a9x6HQmZ6yNvTA'
 bot = Bot(TOKEN)
 dp = Dispatcher()
 
@@ -12,7 +12,7 @@ async def start_cmd(message: types.Message):
 
 @dp.message()
 async def echo(message: types.Message):
-    await message.answer(f'если в твоем сообшение: {message.text} есть что то оскорбительное то сам такой, чорт паганый')
+    await message.answer(f'Я пока что в разработке так что могу толко показать вам ваше же предложение: {message.text}')
 
 async def main():
     await dp.start_polling(bot)
