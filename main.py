@@ -1,36 +1,27 @@
 import asyncio
 import logging
 import sys
-from os import getenv
+import os
 
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
-from aiogram.types import Message
 
-TOKEN = "7984849829:AAF9Ru8YrSKepje_8McB_a9x6HQmZ6yNvTA"
+
+from dotenv import find_dotenv, load_dotenv
+load_dotenv(find_dotenv())
+
+from handlers.user_private import user_private_router
+
 
 dp = Dispatcher()
 
-
-@dp.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
-    await message.answer(f"Привет, {html.bold(message.from_user.full_name)}, я Дон местной мафии")
-    await message.answer(f'Хочешь начать игру в мафию?')
-
-
-@dp.message()
-async def echo_handler(message: Message) -> None:
-    try:
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        await message.answer("Nice try!")
+dp.include_router(user_private_router)
 
 
 async def main() -> None:
-    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
+    bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 
