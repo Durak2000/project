@@ -8,7 +8,10 @@ user_group_router.message.filter(ChatTypeFilter(['group', 'supergroup']))
 user_group_router.edited_message.filter(ChatTypeFilter(['group', 'supergroup']))
 
 
-restricted_words = {"блядь", "сука", "хуила", "пизда", "ебать", "дрочить", "мудак", "еблан", "ебанат", "хуй", "сраный", "хуесос", "гандон", "пиздобол", "член"}
+restricted_words = {
+    "блядь", "сука", "хуила", "пизда", "ебать", "дрочить", "мудак", "еблан",
+    "ебанат", "хуй", "сраный", "хуесос", "гандон", "пиздобол", "член"
+    }
 
 def clean_text(text: str):
     return text.translate(str.maketrans('', '', punctuation))

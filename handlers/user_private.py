@@ -2,20 +2,24 @@ from aiogram import F,  html, types, Router
 from aiogram.filters import CommandStart, Command, or_f
 from filters.chat_types import ChatTypeFilter
 
+from kbdn import reply
+
 user_private_router = Router()
 user_private_router.message.filter(ChatTypeFilter(['private']))
 
 @user_private_router.message(CommandStart())
 async def start_cmd(message: types.Message):
     await message.answer(f"Привет, {html.bold(message.from_user.full_name)}, я Дон местной мафии")
-    await message.answer(f'Хочешь начать игру в мафию?') 
+    await message.answer(f'Хочешь начать игру в мафию?',
+                         reply_markup=reply.start_kb.as_markup(
+                             resize_keyboard=True,
+                             input_feild_placeholder='Что ты хочешь?'))
 
 @user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню")))
 async def menu_cmd(message: types.Message):
-    await message.answer('Бот пока что в разработке')
-    await message.answer('Так что давай не наглей')
+    await message.answer('Меню: ', reply_markup=reply.del_kbd)
 
-@user_private_router.message(Command('about'))
+@user_private_router.message(or_f(Command("about"), (F.text.lower() == "о нас")))
 async def menu_cmd(message: types.Message):
     await message.answer('Привет я разработчик этого прекрасного бота\
  (https://t.me/Kitty2_2_8), этот бот сделан для того чтобы проводить игры в\
@@ -33,7 +37,3 @@ async def menu_cmd(message: types.Message):
 @user_private_router.message(F.text)
 async def menu_cmd(message: types.Message):
     await message.answer(message.text)
-
-@user_private_router.message(F.audio)
-async def menu_cmd(message: types.Message):
-    await message.answer('Ты че вообще куку боту гс присылать?')
