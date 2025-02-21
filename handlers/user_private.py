@@ -15,7 +15,7 @@ async def start_cmd(message: types.Message):
     await message.answer(f"Здравствуйте,\
  {html.bold(message.from_user.full_name)},\
  я помогу вам сделать ваш праздник веселее и красивее")
-    await message.answer(f'Выбирите что вы хотите заказать?',
+    await message.answer(f'Выбирите что вы хотите?',
                          reply_markup=reply.start_kb.as_markup(
                              resize_keyboard=True,
                              input_feild_placeholder='Что хотите заказать?'))
