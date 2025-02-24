@@ -3,6 +3,8 @@ import logging
 import sys
 import os
 
+from loguru import logger
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -24,6 +26,11 @@ dp.include_router(user_group_router)
 
 
 async def main() -> None:
+    logger.add('file.log',
+               format='{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}',
+               rotation='3 days',
+               backtrace=True,
+               diagnose=True)
     bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())

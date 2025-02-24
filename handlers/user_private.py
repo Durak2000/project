@@ -1,3 +1,4 @@
+from loguru import logger
 from aiogram import F,  html, types, Router
 from aiogram.filters import CommandStart, Command, or_f
 from aiogram.utils.formatting import as_list, as_marked_section, Bold
@@ -40,11 +41,12 @@ async def menu_cmd(message: types.Message):
 
 @user_private_router.message(F.contact)
 async def get_contact(message: types.Message):
-    await message.answer(f"номер получен")
-    await message.answer(str(message.contact))
+    await message.answer("номер получен")
+    logger.info(message.contact)
 
 
 @user_private_router.message(F.location)
 async def get_location(message: types.Message):
-    await message.answer(f"локация получена")
+    await message.answer("локация получена")
+    logger.info(message.location)
     await message.answer(str(message.location))
