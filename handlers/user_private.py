@@ -13,6 +13,7 @@ user_private_router.message.filter(ChatTypeFilter(['private']))
 
 @user_private_router.message(CommandStart())
 async def start_cmd(message: types.Message):
+    logger.info(f'Пользователь {(message.from_user.full_name)}, запустил бота')
     await message.answer(f"Здравствуйте,\
  {html.bold(message.from_user.full_name)},\
  я помогу вам сделать ваш праздник веселее и красивее")
