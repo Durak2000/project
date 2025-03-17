@@ -17,14 +17,16 @@ load_dotenv(find_dotenv())
 
 from handlers.user_private import user_private_router
 from handlers.user_group import user_group_router
-from common.bot_cmds_list import private
+from handlers.admin_private import admin_router
 
+from common.bot_cmds_list import private
 
 dp = Dispatcher()
 CHANNEL_ID = '@fuckyoulolb'
 
 dp.include_router(user_private_router)
 dp.include_router(user_group_router)
+dp.include_router(admin_router)
 
 
 async def main() -> None:
@@ -34,6 +36,7 @@ async def main() -> None:
                backtrace=True,
                diagnose=True)
     bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot.my_admins_list = []
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())
 
