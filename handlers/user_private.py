@@ -5,7 +5,7 @@ from aiogram.utils.formatting import as_list, as_marked_section, Bold
 
 from filters.chat_types import ChatTypeFilter
 
-from kbdn import reply
+from kbdn.reply import get_keyboard
 
 user_private_router = Router()
 user_private_router.message.filter(ChatTypeFilter(['private']))
@@ -17,15 +17,31 @@ async def start_cmd(message: types.Message):
     await message.answer(f"Здравствуйте,\
  {html.bold(message.from_user.full_name)},\
  я помогу вам сделать ваш праздник веселее и красивее")
-    await message.answer(f'Выбирите что вы хотите?',
-                         reply_markup=reply.start_kb.as_markup(
-                             resize_keyboard=True,
-                             input_feild_placeholder='Что хотите заказать?'))
+    await message.answer(
+        "Привет, я виртуальный помощник",
+        reply_markup=get_keyboard(
+            "Меню",
+            "О нас",
+            "Отправить номер ☎️",
+            "Отправить локацию 🗺️",
+            placeholder="Что вас интересует?",
+            sizes=(2, 2)
+        ),
+    )
 
 
 @user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню")))
 async def menu_cmd(message: types.Message):
-    await message.answer('Меню: ', reply_markup=reply.del_kbd)
+    await message.answer(
+        "Вот меню:",
+        reply_markup=get_keyboard(
+            "Каталог",
+            "Варианты оплаты",
+            "Варианты доставки",
+            placeholder="Что вас интересует?",
+            sizes=(1, 2)
+        ),
+    )
 
 
 @user_private_router.message(or_f(Command("about"), (F.text.lower() == "о нас")))
@@ -35,9 +51,9 @@ async def menu_cmd(message: types.Message):
  Рождения, мероприятия, на выписку, да и просто поднять настроение любимым!!!')
 
 
-@user_private_router.message(F.text)
-async def menu_cmd(message: types.Message):
-    await message.answer(message.text)
+# @user_private_router.message(F.text)
+# async def menu_cmd(message: types.Message):
+#     await message.answer(message.text)
 
 
 @user_private_router.message(F.contact)

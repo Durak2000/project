@@ -26,7 +26,7 @@ def get_keyboard(
     keyboard = ReplyKeyboardBuilder()
 
     for index, text in enumerate(btns, start=0):
-        
+ 
         if request_contact and request_contact == index:
             keyboard.add(KeyboardButton(text=text, request_contact=True))
 

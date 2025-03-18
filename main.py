@@ -24,9 +24,9 @@ from common.bot_cmds_list import private
 dp = Dispatcher()
 CHANNEL_ID = '@fuckyoulolb'
 
+dp.include_router(admin_router)
 dp.include_router(user_private_router)
 dp.include_router(user_group_router)
-dp.include_router(admin_router)
 
 
 async def main() -> None:
@@ -39,33 +39,32 @@ async def main() -> None:
     bot.my_admins_list = []
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())
+    # async def send_random_joke():
+    #     while True:
+    #         try:
+    #             response = requests.get('https://www.anekdot.ru/random/anekdot/')
+    #             if response.status_code == 200:
+    #                 soup = BeautifulSoup(response.text, 'html.parser')
+    #                 jokes = soup.find_all('div', class_='text')
 
-    async def send_random_joke():
-        while True:
-            try:
-                response = requests.get('https://www.anekdot.ru/random/anekdot/')
-                if response.status_code == 200:
-                    soup = BeautifulSoup(response.text, 'html.parser')
-                    jokes = soup.find_all('div', class_='text')
+    #                 random_joke = choice(jokes).text.strip()
+    #                 anekdot = random_joke
+    #             else:
+    #                 anekdot = "Не удалось получить анекдот"
 
-                    random_joke = choice(jokes).text.strip()
-                    anekdot = random_joke
-                else:
-                    anekdot = "Не удалось получить анекдот"
+    #             await bot.send_message(CHANNEL_ID, f"Анекдот: {anekdot}")
+    #             logger.info(f"Опублекован анекдот: {anekdot}")
+    #         except Exception as e:
+    #             logger.error(f"Ошибка при отправке сообщения {e}")
 
-                await bot.send_message(CHANNEL_ID, f"Анекдот: {anekdot}")
-                logger.info(f"Опублекован анекдот: {anekdot}")
-            except Exception as e:
-                logger.error(f"Ошибка при отправке сообщения {e}")
+    #         await asyncio.sleep(180)
 
-            await asyncio.sleep(180)
-
-    task = asyncio.create_task(send_random_joke())
+    # task = asyncio.create_task(send_random_joke())
 
     try:
         await dp.start_polling(bot)
     finally:
-        task.cancel()
+        # task.cancel()
         await bot.session.close()
         logger.info("Бот остановлен")
 

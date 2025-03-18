@@ -21,7 +21,17 @@ ADMIN_KB = get_keyboard(
 
 @admin_router.message(Command("admin"))
 async def add_product(message: types.Message):
-    await message.answer("Что хотите сделать?", reply_markup=ADMIN_KB)
+    await message.answer(
+        "Что хотите сделать?",
+        reply_markup=get_keyboard(
+            "Добавить товар",
+            "Изменить товар",
+            "Удалить товар",
+            "Я так, просто посмотреть зашел",
+            placeholder="Выберите действие",
+            sizes=(2, 2)
+        ),
+    )
 
 
 @admin_router.message(F.text == "Я так, просто посмотреть зашел")
@@ -39,7 +49,7 @@ async def delete_product(message: types.Message):
     await message.answer("Выберите товар(ы) для удаления")
 
 
-#Код ниже для машины состояний (FSM)
+# Код ниже для машины состояний (FSM)
 
 @admin_router.message(F.text == "Добавить товар")
 async def add_product(message: types.Message):
