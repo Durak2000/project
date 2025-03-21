@@ -25,6 +25,8 @@ async def start_cmd(message: types.Message):
             "Отправить номер ☎️",
             "Отправить локацию 🗺️",
             placeholder="Что вас интересует?",
+            request_contact=2,
+            request_location=3,
             sizes=(2, 2)
         ),
     )
